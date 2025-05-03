@@ -3,9 +3,10 @@ import json
 from src.HeadHunterAbstract import HeadHunterAbstract
 
 class HeadHunterAPI(HeadHunterAbstract):
-    HH_API_URL = 'https://api.hh.ru/vacancies'
+    __HH_API_URL = 'https://api.hh.ru/vacancies'
 
-    def get_vacancies(self, keyword='', per_page=20, salary=None):
+    ### приватный метод подключения к api
+    def __get_vacancies(self, keyword='', per_page=20, salary=None):
         params = {
             'text': keyword,  # Поисковой запрос
             'area': 1,  # Регион 1 - РФ
@@ -13,7 +14,7 @@ class HeadHunterAPI(HeadHunterAbstract):
             'salary': salary  # Зарплата
         }
 
-        response = requests.get(self.HH_API_URL, params=params)
+        response = requests.get(self.__HH_API_URL, params=params)
 
         if response.status_code == 200:
             # with open('data/all_vacancy_tst.json', 'w', encoding='utf-8') as file:
@@ -22,3 +23,7 @@ class HeadHunterAPI(HeadHunterAbstract):
             return response.json()['items']
         else:
             return f'Запрос не выполнен, ошибка: {response.status_code}'
+
+    ### обертка для приватного метода
+    def get_vacancies(self, keyword='', per_page=20, salary=None):
+        return self.__get_vacancies(keyword, per_page, salary)

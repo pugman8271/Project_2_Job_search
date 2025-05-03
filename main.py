@@ -5,7 +5,7 @@ from src.json_saver import JSONSaver
 hh_api = HeadHunterAPI()
 
 # Получение вакансий с hh.ru в формате JSON
-hh_vacancies = hh_api.get_vacancies("разработчик")
+hh_vacancies = hh_api.get_vacancies("")
 
 # Преобразование набора данных из JSON в список объектов
 vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
@@ -34,8 +34,9 @@ json_saver = JSONSaver()
 #     top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
 #     print_vacancies(top_vacancies)
 
+vacancies_list_5=Vacancy.get_top_n_by_salary(vacancies_list,5)
 
-for i in vacancies_list:
-    json_saver.add_vacancy(i)
+
+print(vacancies_list_5)
 
 
