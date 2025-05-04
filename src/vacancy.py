@@ -36,7 +36,7 @@ class Vacancy:
                 f"Зарплата: {self.salary}\n"
                 f"Ссылка: {self.url}\n"
                 f"Описание: {self.description}\n"
-                f"_____________________________________________\n")
+                f"{'_'*80}\n")
 
     @classmethod
     def get_top_n_by_salary(cls, vacancies, n=5):
@@ -51,6 +51,9 @@ class Vacancy:
 
     @classmethod
     def get_vacancy_by_search_query(cls, vacancies, search_query):
+        if type(vacancies) != list:
+            return f"Вакансии по названию не найдены"
+
         filtered_vacancies = []
         for vacancy in vacancies:
             if search_query.lower() in vacancy.name.lower():
@@ -58,7 +61,22 @@ class Vacancy:
             elif search_query=='':
                 filtered_vacancies.append(vacancy)
         if filtered_vacancies == []:
-            filtered_vacancies = f"Вакансии не найдены"
+            return f"Вакансии по названию не найдены"
+        return filtered_vacancies
+
+    @classmethod
+    def get_vacancy_by_description(cls, vacancies, search_description):
+        if type(vacancies) != list:
+            return f"Вакансии по описанию не найдены"
+        filtered_vacancies = []
+        for vacancy in vacancies:
+            if vacancy.description is not None:
+                if search_description.lower() in vacancy.description.lower():
+                    filtered_vacancies.append(vacancy)
+                elif search_description == '':
+                    filtered_vacancies.append(vacancy)
+        if filtered_vacancies == []:
+            return f"Вакансии по описанию не найдены"
         return filtered_vacancies
 
 
