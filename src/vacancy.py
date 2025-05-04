@@ -1,3 +1,4 @@
+
 class Vacancy:
     def __init__(self, name, url, salary, description):
         if not isinstance(name, str):
@@ -31,10 +32,11 @@ class Vacancy:
 
 
     def __repr__(self):
-        return (f"Вакансия: {self.name}\n"
+        return (f"\nВакансия: {self.name}\n"
                 f"Зарплата: {self.salary}\n"
                 f"Ссылка: {self.url}\n"
-                f"Описание: {self.description}")
+                f"Описание: {self.description}\n"
+                f"_____________________________________________\n")
 
     @classmethod
     def get_top_n_by_salary(cls, vacancies, n=5):
@@ -47,5 +49,17 @@ class Vacancy:
                                  key=lambda x: x.salary_to,
                                  reverse=True)
         return filtered_vacancies_by_salary[:n]
+
+    @classmethod
+    def get_vacancy_by_search_query(cls, vacancies, search_query):
+        filtered_vacancies = []
+        for vacancy in vacancies:
+            if search_query.lower() in vacancy.name.lower():
+                filtered_vacancies.append(vacancy)
+            elif search_query=='':
+                filtered_vacancies.append(vacancy)
+        if filtered_vacancies == []:
+            filtered_vacancies = f"Вакансии не найдены"
+        return filtered_vacancies
 
 

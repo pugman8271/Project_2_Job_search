@@ -6,7 +6,7 @@ class HeadHunterAPI(HeadHunterAbstract):
     __HH_API_URL = 'https://api.hh.ru/vacancies'
 
     ### приватный метод подключения к api
-    def __get_vacancies(self, keyword='', per_page=20, salary=None):
+    def __get_vacancies(self, keyword='', per_page=50, salary=None):
         params = {
             'text': keyword,  # Поисковой запрос
             'area': 1,  # Регион 1 - РФ

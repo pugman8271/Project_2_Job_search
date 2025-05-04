@@ -31,12 +31,11 @@ json_saver = JSONSaver()
 #     ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
 #
 #     sorted_vacancies = sort_vacancies(ranged_vacancies)
-#     top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
-#     print_vacancies(top_vacancies)
-
-vacancies_list_5=Vacancy.get_top_n_by_salary(vacancies_list,5)
+#     top_vacancies = Vacancy.get_top_n_by_salary(vacancies_list,top_n)
+#     print(top_vacancies)
 
 
-print(vacancies_list_5)
-
+top_vacancies_s = Vacancy.get_top_n_by_salary(vacancies_list, 1)
+top_vacancies = Vacancy.get_vacancy_by_search_query(top_vacancies_s, '')
+print(top_vacancies)
 
