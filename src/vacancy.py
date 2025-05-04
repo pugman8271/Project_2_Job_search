@@ -40,7 +40,6 @@ class Vacancy:
 
     @classmethod
     def get_top_n_by_salary(cls, vacancies, n=5):
-        # Фильтруем вакансии с пустой зарплатой
         filtered_vacancies = []
         for vacancy in vacancies:
             if vacancy.salary_to is not None:
