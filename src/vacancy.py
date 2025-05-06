@@ -1,14 +1,6 @@
 class Vacancy:
     """
     Класс для представления информации о вакансии.
-
-    Attributes:
-        name (str): Название вакансии.
-        url (str): Ссылка на вакансию.
-        salary (str): Диапазон зарплаты.
-        description (str): Описание вакансии.
-        salary_from (int | None): Минимальная зарплата.
-        salary_to (int | None): Максимальная зарплата.
     """
 
     __slots__ = ('name', 'url', 'salary', 'description', 'salary_from', 'salary_to')
@@ -16,12 +8,6 @@ class Vacancy:
     def __init__(self, name: str, url: str, salary: dict, description: str):
         """
         Инициализация объекта Vacancy.
-
-        Args:
-            name (str): Название вакансии.
-            url (str): Ссылка на вакансию.
-            salary (dict): Словарь с информацией о зарплате.
-            description (str): Описание вакансии.
         """
         if not isinstance(name, str):
             self.name = 'Название не указано'
@@ -44,12 +30,6 @@ class Vacancy:
     def cast_to_object_list(cls, data_list: list) -> list:
         """
         Преобразование списка словарей в список объектов Vacancy.
-
-        Args:
-            data_list (list): Список словарей с информацией о вакансиях.
-
-        Returns:
-            list: Список объектов Vacancy.
         """
         vacancies = []
         for data in data_list:
@@ -63,9 +43,6 @@ class Vacancy:
     def __repr__(self) -> str:
         """
         Строковое представление объекта Vacancy.
-
-        Returns:
-            str: Строка с информацией о вакансии.
         """
         return (f"\nВакансия: {self.name}\n"
                 f"Зарплата: {self.salary}\n"
@@ -77,13 +54,6 @@ class Vacancy:
     def get_top_n_by_salary(cls, vacancies: list, n: int = 5) -> list:
         """
         Получение топ-N вакансий с наибольшей зарплатой.
-
-        Args:
-            vacancies (list): Список объектов Vacancy.
-            n (int): Количество вакансий для возврата.
-
-        Returns:
-            list: Список объектов Vacancy с наибольшей зарплатой.
         """
         filtered_vacancies = []
         for vacancy in vacancies:
@@ -98,13 +68,6 @@ class Vacancy:
     def get_vacancy_by_keyword(cls, vacancies: list, search_keywords: list) -> list:
         """
         Поиск вакансий по ключевым словам в названии или описании.
-
-        Args:
-            vacancies (list): Список объектов Vacancy.
-            search_keywords (list): Список ключевых слов для поиска.
-
-        Returns:
-            list: Список объектов Vacancy, соответствующих хотя бы одному из ключевых слов.
         """
         if type(vacancies) != list:
             return "Вакансии не найдены"
@@ -127,12 +90,6 @@ class Vacancy:
     def __lt__(self, other: 'Vacancy') -> bool:
         """
         Сравнение вакансий по максимальной зарплате.
-
-        Args:
-            other (Vacancy): Другая вакансия для сравнения.
-
-        Returns:
-            bool: True, если максимальная зарплата текущей вакансии меньше, чем у другой вакансии.
         """
         if self.salary_to is None or other.salary_to is None:
             return False
@@ -141,12 +98,6 @@ class Vacancy:
     def __gt__(self, other: 'Vacancy') -> bool:
         """
         Сравнение вакансий по максимальной зарплате.
-
-        Args:
-            other (Vacancy): Другая вакансия для сравнения.
-
-        Returns:
-            bool: True, если максимальная зарплата текущей вакансии больше, чем у другой вакансии.
         """
         if self.salary_to is None or other.salary_to is None:
             return False
@@ -156,13 +107,6 @@ class Vacancy:
     def get_vacancies_by_salary_range(cls, vacancies: list, salary_range: str) -> list:
         """
         Фильтрация вакансий по диапазону зарплаты.
-
-        Args:
-            vacancies (list): Список объектов Vacancy.
-            salary_range (str): Диапазон зарплаты в формате "X-Y".
-
-        Returns:
-            list: Список объектов Vacancy, соответствующих диапазону зарплаты.
         """
         try:
             lower_bound, upper_bound = map(int, salary_range.split('-'))
