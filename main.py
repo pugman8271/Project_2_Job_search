@@ -34,8 +34,8 @@ def user_interaction():
             json_saver.add_vacancy(vacancy)
 
 
-
-user_interaction()
+if __name__ == "__main__":
+    user_interaction()
 
 
 
