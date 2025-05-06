@@ -1,10 +1,7 @@
-import pytest
-from pathlib import Path
-from src.jsonSaverAbstract import JsonSaverAbstract
 from src.json_saver import JSONSaver
-from src.vacancy import Vacancy
 import json
 json_saver = JSONSaver('data/json_data_test.json')
+
 
 def test_add_vacancy(new_vacancy_developer):
     json_saver.add_vacancy(new_vacancy_developer)
@@ -15,6 +12,7 @@ def test_add_vacancy(new_vacancy_developer):
     assert data[0]['url'] == new_vacancy_developer.url
     assert data[0]['salary'] == new_vacancy_developer.salary
     assert data[0]['description'] == new_vacancy_developer.description
+
 
 def test_add_duplicate_vacancy(new_vacancy_driver):
     json_saver.add_vacancy(new_vacancy_driver)
@@ -27,6 +25,7 @@ def test_add_duplicate_vacancy(new_vacancy_driver):
     assert data[1]['salary'] == new_vacancy_driver.salary
     assert data[1]['description'] == new_vacancy_driver.description
 
+
 def test_delete_vacancy(new_vacancy_developer):
     json_saver.add_vacancy(new_vacancy_developer)
     json_saver.delete_vacancy(new_vacancy_developer)
@@ -37,4 +36,3 @@ def test_delete_vacancy(new_vacancy_developer):
     # Перезаписываем файл, чтобы тесты проходили
     with open(json_saver._file_path, 'w', encoding='utf-8') as file:
         data = []
-

@@ -1,6 +1,6 @@
-
 from unittest.mock import patch, Mock
 from src.HeadHunter_api import HeadHunterAPI
+
 
 def test_get_vacancies_success():
     api = HeadHunterAPI()
@@ -12,6 +12,7 @@ def test_get_vacancies_success():
         result = api.get_vacancies(keyword='python', per_page=2, salary=100000)
         assert result == ['vacancy1', 'vacancy2']
 
+
 def test_get_vacancies_error():
     api = HeadHunterAPI()
     with patch('requests.get') as mock_get:
@@ -21,5 +22,3 @@ def test_get_vacancies_error():
         result = api.get_vacancies()
         assert isinstance(result, str)
         assert result.startswith('Запрос не выполнен, ошибка:')
-
-

@@ -1,6 +1,6 @@
 import requests
-import json
 from src.HeadHunterAbstract import HeadHunterAbstract
+
 
 class HeadHunterAPI(HeadHunterAbstract):
     """

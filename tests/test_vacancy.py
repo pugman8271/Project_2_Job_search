@@ -1,10 +1,12 @@
 from src.vacancy import Vacancy
 
+
 def test_init_vacancy_with_valid_data(new_vacancy_developer):
     assert new_vacancy_developer.name == "Python Developer"
     assert new_vacancy_developer.url == "<https://hh.ru/vacancy/123456>"
     assert new_vacancy_developer.salary == "300000-350000"
     assert new_vacancy_developer.description == "Требования: опыт работы от 3 лет..."
+
 
 def test_init_vacancy_with_single_salary(new_vacancy_driver):
     assert new_vacancy_driver.name == "Водитель"
@@ -38,6 +40,7 @@ def test_cast_to_object_list(vacancy_list):
         assert casted_vacancies[i].salary_from == vacancy_list[i].salary_from
         assert casted_vacancies[i].salary_to == vacancy_list[i].salary_to
 
+
 def test_get_top_n_by_salary(vacancy_list):
     top_vacancies = Vacancy.get_top_n_by_salary(vacancy_list, n=2)
     assert top_vacancies[0].name == "Python Developer"
@@ -49,18 +52,20 @@ def test_get_vacancy_by_keyword(vacancy_list):
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancy_list, keywords)
     assert filtered_vacancies == [vacancy_list[0]]
 
+
 def test_get_vacancy_by_keyword_empty_keywords(vacancy_list):
     keywords = []
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancy_list, keywords)
     assert filtered_vacancies == vacancy_list
+
 
 def test_get_vacancy_by_keyword_no_matches(vacancy_list):
     keywords = ["Неизвестная профессия"]
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancy_list, keywords)
     assert filtered_vacancies == 'Вакансии по ключевым словам не найдены'
 
+
 def test_get_vacancies_by_salary_range(vacancy_list):
     salary_range = '0-200000'
     filtered_vacancies = Vacancy.get_vacancies_by_salary_range(vacancy_list, salary_range)
     assert filtered_vacancies == [vacancy_list[1]]
-

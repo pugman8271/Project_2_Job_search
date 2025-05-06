@@ -71,7 +71,7 @@ class Vacancy:
                 f"Зарплата: {self.salary}\n"
                 f"Ссылка: {self.url}\n"
                 f"Описание: {self.description}\n"
-                f"{'_'*80}\n")
+                f"{'_' * 80}\n")
 
     @classmethod
     def get_top_n_by_salary(cls, vacancies: list, n: int = 5) -> list:
@@ -107,7 +107,7 @@ class Vacancy:
             list: Список объектов Vacancy, соответствующих хотя бы одному из ключевых слов.
         """
         if type(vacancies) != list:
-            return f"Вакансии не найдены"
+            return "Вакансии не найдены"
 
         filtered_vacancies = []
         for vacancy in vacancies:
@@ -121,7 +121,7 @@ class Vacancy:
             filtered_vacancies = vacancies  # Если список ключевых слов пуст, возвращаем все вакансии
 
         if filtered_vacancies == []:
-            return f"Вакансии по ключевым словам не найдены"
+            return "Вакансии по ключевым словам не найдены"
         return filtered_vacancies
 
     def __lt__(self, other: 'Vacancy') -> bool:
@@ -173,8 +173,10 @@ class Vacancy:
         filtered_vacancies = []
         for vacancy in vacancies:
             if vacancy.salary_from is not None and vacancy.salary_to is not None:
-                if lower_bound <= vacancy.salary_from <= upper_bound or lower_bound <= vacancy.salary_to <= upper_bound:
+                if (
+                        lower_bound <= vacancy.salary_from <= upper_bound
+                        or lower_bound <= vacancy.salary_to <= upper_bound
+                ):
                     filtered_vacancies.append(vacancy)
 
         return filtered_vacancies
-

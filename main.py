@@ -6,6 +6,7 @@ hh_api = HeadHunterAPI()
 # Передаем пусть, по которому будем сохранять отфильтрованные вакансии
 json_saver = JSONSaver('data/json_data.json')
 
+
 def user_interaction():
     print('HeadHunter')
     search_query = input("Введите поисковый запрос: ")
@@ -18,7 +19,7 @@ def user_interaction():
     hh_vacancies = hh_api.get_vacancies(search_query)
     # Преобразование набора данных из JSON в список объектов
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
-    #Фильтруемся по ключевым словам пользователя
+    # Фильтруемся по ключевым словам пользователя
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancies_list, filter_words)
     # Фильтруемся по диапозону зарплаты
     ranged_vacancies = Vacancy.get_vacancies_by_salary_range(filtered_vacancies, salary_range)
@@ -36,19 +37,3 @@ def user_interaction():
 
 if __name__ == "__main__":
     user_interaction()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

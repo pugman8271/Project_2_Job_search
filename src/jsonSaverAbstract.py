@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class JsonSaverAbstract(ABC):
     """
     Абстрактный класс для работы с JSON-файлами.

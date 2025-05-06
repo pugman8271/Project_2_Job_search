@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class HeadHunterAbstract(ABC):
     """
     Абстрактный класс для работы с API HeadHunter.
