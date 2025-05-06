@@ -95,53 +95,33 @@ class Vacancy:
         return filtered_vacancies_by_salary[:n]
 
     @classmethod
-    def get_vacancy_by_search_query(cls, vacancies: list, search_query: str) -> list:
+    def get_vacancy_by_keyword(cls, vacancies: list, search_keywords: list) -> list:
         """
-        Поиск вакансий по запросу.
+        Поиск вакансий по ключевым словам в названии или описании.
 
         Args:
             vacancies (list): Список объектов Vacancy.
-            search_query (str): Запрос для поиска.
+            search_keywords (list): Список ключевых слов для поиска.
 
         Returns:
-            list: Список объектов Vacancy, соответствующих запросу.
+            list: Список объектов Vacancy, соответствующих хотя бы одному из ключевых слов.
         """
         if type(vacancies) != list:
-            return f"Вакансии по названию не найдены"
+            return f"Вакансии не найдены"
 
         filtered_vacancies = []
         for vacancy in vacancies:
-            if search_query.lower() in vacancy.name.lower():
-                filtered_vacancies.append(vacancy)
-            elif search_query == '':
-                filtered_vacancies.append(vacancy)
-        if filtered_vacancies == []:
-            return f"Вакансии по названию не найдены"
-        return filtered_vacancies
-
-    @classmethod
-    def get_vacancy_by_description(cls, vacancies: list, search_description: str) -> list:
-        """
-        Поиск вакансий по описанию.
-
-        Args:
-            vacancies (list): Список объектов Vacancy.
-            search_description (str): Описание для поиска.
-
-        Returns:
-            list: Список объектов Vacancy, соответствующих описанию.
-        """
-        if type(vacancies) != list:
-            return f"Вакансии по описанию не найдены"
-        filtered_vacancies = []
-        for vacancy in vacancies:
-            if vacancy.description is not None:
-                if search_description.lower() in vacancy.description.lower():
+            for keyword in search_keywords:
+                if keyword.lower() in vacancy.name.lower() or (
+                        vacancy.description is not None and keyword.lower() in vacancy.description.lower()):
                     filtered_vacancies.append(vacancy)
-                elif search_description == '':
-                    filtered_vacancies.append(vacancy)
+                    break  # Если найдено соответствие, переходим к следующей вакансии
+
+        if search_keywords == []:
+            filtered_vacancies = vacancies  # Если список ключевых слов пуст, возвращаем все вакансии
+
         if filtered_vacancies == []:
-            return f"Вакансии по описанию не найдены"
+            return f"Вакансии по ключевым словам не найдены"
         return filtered_vacancies
 
     def __lt__(self, other: 'Vacancy') -> bool:
@@ -179,24 +159,22 @@ class Vacancy:
 
         Args:
             vacancies (list): Список объектов Vacancy.
-            salary_range (str): Диапазон зарплаты в формате "от X до Y".
+            salary_range (str): Диапазон зарплаты в формате "X-Y".
 
         Returns:
             list: Список объектов Vacancy, соответствующих диапазону зарплаты.
         """
         try:
-            parts = salary_range.split()
-            lower_bound = int(parts[1])
-            upper_bound = int(parts[3])
-        except (IndexError, ValueError):
+            lower_bound, upper_bound = map(int, salary_range.split('-'))
+        except ValueError:
             print("Некорректный формат диапазона зарплаты.")
             return []
 
-        filtered_vacancies = [
-            vacancy for vacancy in vacancies
-            if vacancy.salary_from is not None and vacancy.salary_to is not None
-               and lower_bound <= vacancy.salary_from <= upper_bound
-               or lower_bound <= vacancy.salary_to <= upper_bound
-        ]
+        filtered_vacancies = []
+        for vacancy in vacancies:
+            if vacancy.salary_from is not None and vacancy.salary_to is not None:
+                if lower_bound <= vacancy.salary_from <= upper_bound or lower_bound <= vacancy.salary_to <= upper_bound:
+                    filtered_vacancies.append(vacancy)
 
         return filtered_vacancies
+
