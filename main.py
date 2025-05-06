@@ -22,9 +22,13 @@ def user_interaction():
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancies_list, filter_words)
     # Фильтруемся по диапозону зарплаты
     ranged_vacancies = Vacancy.get_vacancies_by_salary_range(filtered_vacancies, salary_range)
-    # Выводим топ-N вакансий по заданным параметрам выше
+    # Фильтруем топ-N вакансий по заданным параметрам выше
     top_vacancies = Vacancy.get_top_n_by_salary(ranged_vacancies, top_n)
+
+    # Выводим вакансии в консоль по запросу пользователя
     print(top_vacancies)
+
+    # Сохраняем вакансии по запросу в файл
     if json_save.lower() == 'да':
         for vacancy in top_vacancies:
             json_saver.add_vacancy(vacancy)
