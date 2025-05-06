@@ -171,3 +171,32 @@ class Vacancy:
         if self.salary_to is None or other.salary_to is None:
             return False
         return self.salary_to > other.salary_to
+
+    @classmethod
+    def get_vacancies_by_salary_range(cls, vacancies: list, salary_range: str) -> list:
+        """
+        Фильтрация вакансий по диапазону зарплаты.
+
+        Args:
+            vacancies (list): Список объектов Vacancy.
+            salary_range (str): Диапазон зарплаты в формате "от X до Y".
+
+        Returns:
+            list: Список объектов Vacancy, соответствующих диапазону зарплаты.
+        """
+        try:
+            parts = salary_range.split()
+            lower_bound = int(parts[1])
+            upper_bound = int(parts[3])
+        except (IndexError, ValueError):
+            print("Некорректный формат диапазона зарплаты.")
+            return []
+
+        filtered_vacancies = [
+            vacancy for vacancy in vacancies
+            if vacancy.salary_from is not None and vacancy.salary_to is not None
+               and lower_bound <= vacancy.salary_from <= upper_bound
+               or lower_bound <= vacancy.salary_to <= upper_bound
+        ]
+
+        return filtered_vacancies

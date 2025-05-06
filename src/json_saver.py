@@ -6,10 +6,17 @@ class JSONSaver(JsonSaverAbstract):
     Класс для сохранения и удаления вакансий в JSON-файл.
 
     Attributes:
-        file_path (str): Путь к файлу для сохранения данных.
+        _file_path (str): Путь к файлу для сохранения данных.
     """
 
-    file_path = 'data/json_data.json'
+    def __init__(self, file_path: str):
+        """
+        Инициализация объекта JSONSaver.
+
+        Args:
+            file_path (str): Путь к файлу для сохранения данных.
+        """
+        self._file_path = file_path
 
     def add_vacancy(self, vacancy: 'Vacancy') -> None:
         """
@@ -26,7 +33,7 @@ class JSONSaver(JsonSaverAbstract):
         }
 
         try:
-            with open(self.file_path, 'r', encoding='utf-8') as file:
+            with open(self._file_path, 'r', encoding='utf-8') as file:
                 data = json.load(file)
             if not isinstance(data, list):
                 data = [data]
@@ -40,9 +47,9 @@ class JSONSaver(JsonSaverAbstract):
 
         data.append(vacancy_dict)
 
-        with open(self.file_path, 'w', encoding='utf-8') as file:
+        with open(self._file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=2)
-            print(f"Данные успешно сохранены в {self.file_path}")
+            print(f"Данные успешно сохранены в {self._file_path}")
 
     def delete_vacancy(self, vacancy: 'Vacancy') -> None:
         """
@@ -59,7 +66,7 @@ class JSONSaver(JsonSaverAbstract):
         }
 
         try:
-            with open(self.file_path, 'r', encoding='utf-8') as file:
+            with open(self._file_path, 'r', encoding='utf-8') as file:
                 data = json.load(file)
 
             if not isinstance(data, list):
@@ -69,11 +76,11 @@ class JSONSaver(JsonSaverAbstract):
             data = [v for v in data if v['url'] != vacancy_dict['url']]
 
             if len(data) < initial_length:
-                with open(self.file_path, 'w', encoding='utf-8') as file:
+                with open(self._file_path, 'w', encoding='utf-8') as file:
                     json.dump(data, file, ensure_ascii=False, indent=2)
-                    print(f'Вакансия {vacancy.name} успешно удалена из {self.file_path}')
+                    print(f'Вакансия {vacancy.name} успешно удалена из {self._file_path}')
             else:
-                print(f'Вакансия {vacancy.name} не найдена в {self.file_path}')
+                print(f'Вакансия {vacancy.name} не найдена в {self._file_path}')
 
         except (FileNotFoundError, json.JSONDecodeError):
-            print(f'Файл {self.file_path} не найден или пуст')
+            print(f'Файл {self._file_path} не найден или пуст')
