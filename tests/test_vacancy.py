@@ -12,7 +12,9 @@ def test_init_vacancy_with_single_salary(new_vacancy_driver):
     assert new_vacancy_driver.name == "Водитель"
     assert new_vacancy_driver.url == "<https://hh.ru/vacancy/12348755456>"
     assert new_vacancy_driver.salary == "200000-26000"
-    assert new_vacancy_driver.description == "Требования: опыт работы от 6 лет водителем"
+    assert (
+        new_vacancy_driver.description == "Требования: опыт работы от 6 лет водителем"
+    )
 
 
 def test_cast_to_object_list(vacancy_list):
@@ -21,14 +23,14 @@ def test_cast_to_object_list(vacancy_list):
             "name": "Python Developer",
             "url": "<https://hh.ru/vacancy/123456>",
             "salary": {"from": 300000, "to": 350000},
-            "snippet": {"responsibility": "Требования: опыт работы от 3 лет..."}
+            "snippet": {"responsibility": "Требования: опыт работы от 3 лет..."},
         },
         {
             "name": "Водитель",
             "url": "<https://hh.ru/vacancy/12348755456>",
             "salary": {"from": 200000, "to": 26000},
-            "snippet": {"responsibility": "Требования: опыт работы от 6 лет водителем"}
-        }
+            "snippet": {"responsibility": "Требования: опыт работы от 6 лет водителем"},
+        },
     ]
     casted_vacancies = Vacancy.cast_to_object_list(data_list)
     assert len(casted_vacancies) == len(vacancy_list)
@@ -62,10 +64,12 @@ def test_get_vacancy_by_keyword_empty_keywords(vacancy_list):
 def test_get_vacancy_by_keyword_no_matches(vacancy_list):
     keywords = ["Неизвестная профессия"]
     filtered_vacancies = Vacancy.get_vacancy_by_keyword(vacancy_list, keywords)
-    assert filtered_vacancies == 'Вакансии по ключевым словам не найдены'
+    assert filtered_vacancies == "Вакансии по ключевым словам не найдены"
 
 
 def test_get_vacancies_by_salary_range(vacancy_list):
-    salary_range = '0-200000'
-    filtered_vacancies = Vacancy.get_vacancies_by_salary_range(vacancy_list, salary_range)
+    salary_range = "0-200000"
+    filtered_vacancies = Vacancy.get_vacancies_by_salary_range(
+        vacancy_list, salary_range
+    )
     assert filtered_vacancies == [vacancy_list[1]]
