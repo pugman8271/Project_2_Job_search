@@ -13,7 +13,7 @@ class JSONSaver(JsonSaverAbstract):
 
     def add_vacancy(self, vacancy: 'Vacancy') -> None:
         """
-        Добавляет вакансию в JSON-файл.
+        Добавляет вакансию в JSON-файл, если её ещё нет в файле.
 
         Args:
             vacancy (Vacancy): Объект вакансии для добавления.
@@ -32,6 +32,11 @@ class JSONSaver(JsonSaverAbstract):
                 data = [data]
         except (FileNotFoundError, json.JSONDecodeError):
             data = []
+
+        # Проверка на наличие дублирующейся вакансии по URL
+        if any(v['url'] == vacancy.url for v in data):
+            print(f"Данная вакансия уже есть в файле: {vacancy.url}")
+            return
 
         data.append(vacancy_dict)
 
