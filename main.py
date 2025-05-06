@@ -41,7 +41,7 @@ top_vacancies_в = Vacancy.get_vacancy_by_description(top_vacancies,'')
 
 
 for i in top_vacancies_в:
-    print(i)
+    json_saver.add_vacancy(i)
 
 
 

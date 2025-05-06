@@ -1,11 +1,23 @@
 from src.jsonSaverAbstract import JsonSaverAbstract
 import json
 
-
 class JSONSaver(JsonSaverAbstract):
+    """
+    Класс для сохранения и удаления вакансий в JSON-файл.
+
+    Attributes:
+        file_path (str): Путь к файлу для сохранения данных.
+    """
+
     file_path = 'data/json_data.json'
 
     def add_vacancy(self, vacancy):
+        """
+        Добавляет вакансию в JSON-файл.
+
+        Args:
+            vacancy (Vacancy): Объект вакансии для добавления.
+        """
         vacancy_dict = {
             "name": vacancy.name,
             "url": vacancy.url,
@@ -28,6 +40,12 @@ class JSONSaver(JsonSaverAbstract):
             print(f"Данные успешно сохранены в {self.file_path}")
 
     def delete_vacancy(self, vacancy):
+        """
+        Удаляет вакансию из JSON-файла по URL.
+
+        Args:
+            vacancy (Vacancy): Объект вакансии для удаления.
+        """
         vacancy_dict = {
             "name": vacancy.name,
             "url": vacancy.url,
@@ -54,4 +72,3 @@ class JSONSaver(JsonSaverAbstract):
 
         except (FileNotFoundError, json.JSONDecodeError):
             print(f'Файл {self.file_path} не найден или пуст')
-
