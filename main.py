@@ -35,7 +35,13 @@ json_saver = JSONSaver()
 #     print(top_vacancies)
 
 
-top_vacancies_s = Vacancy.get_top_n_by_salary(vacancies_list, 1)
+top_vacancies_s = Vacancy.get_top_n_by_salary(vacancies_list, 5)
 top_vacancies = Vacancy.get_vacancy_by_search_query(top_vacancies_s, '')
-print(top_vacancies)
+top_vacancies_в = Vacancy.get_vacancy_by_description(top_vacancies,'')
+
+
+for i in top_vacancies_в:
+    print(i)
+
+
 

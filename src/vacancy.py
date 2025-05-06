@@ -1,5 +1,6 @@
-
 class Vacancy:
+    __slots__ = ('name', 'url', 'salary', 'description', 'salary_from', 'salary_to')
+
     def __init__(self, name, url, salary, description):
         if not isinstance(name, str):
             self.name = 'Название не указано'
@@ -18,7 +19,6 @@ class Vacancy:
         self.url = url
         self.description = description
 
-
     @classmethod
     def cast_to_object_list(cls, data_list):
         vacancies = []
@@ -29,7 +29,6 @@ class Vacancy:
                           data['snippet']['responsibility'])
             vacancies.append(vacancy)
         return vacancies
-
 
     def __repr__(self):
         return (f"\nВакансия: {self.name}\n"
@@ -45,8 +44,8 @@ class Vacancy:
             if vacancy.salary_to is not None:
                 filtered_vacancies.append(vacancy)
         filtered_vacancies_by_salary = sorted(filtered_vacancies,
-                                 key=lambda x: x.salary_to,
-                                 reverse=True)
+                                              key=lambda x: x.salary_to,
+                                              reverse=True)
         return filtered_vacancies_by_salary[:n]
 
     @classmethod
@@ -58,7 +57,7 @@ class Vacancy:
         for vacancy in vacancies:
             if search_query.lower() in vacancy.name.lower():
                 filtered_vacancies.append(vacancy)
-            elif search_query=='':
+            elif search_query == '':
                 filtered_vacancies.append(vacancy)
         if filtered_vacancies == []:
             return f"Вакансии по названию не найдены"
@@ -79,4 +78,12 @@ class Vacancy:
             return f"Вакансии по описанию не найдены"
         return filtered_vacancies
 
+    def __lt__(self, other):
+        if self.salary_to is None or other.salary_to is None:
+            return False
+        return self.salary_to < other.salary_to
 
+    def __gt__(self, other):
+        if self.salary_to is None or other.salary_to is None:
+            return False
+        return self.salary_to > other.salary_to
