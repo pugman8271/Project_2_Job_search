@@ -7,13 +7,13 @@ class Vacancy:
         url (str): Ссылка на вакансию.
         salary (str): Диапазон зарплаты.
         description (str): Описание вакансии.
-        salary_from (int): Минимальная зарплата.
-        salary_to (int): Максимальная зарплата.
+        salary_from (int | None): Минимальная зарплата.
+        salary_to (int | None): Максимальная зарплата.
     """
 
     __slots__ = ('name', 'url', 'salary', 'description', 'salary_from', 'salary_to')
 
-    def __init__(self, name, url, salary, description):
+    def __init__(self, name: str, url: str, salary: dict, description: str):
         """
         Инициализация объекта Vacancy.
 
@@ -41,7 +41,7 @@ class Vacancy:
         self.description = description
 
     @classmethod
-    def cast_to_object_list(cls, data_list):
+    def cast_to_object_list(cls, data_list: list) -> list:
         """
         Преобразование списка словарей в список объектов Vacancy.
 
@@ -60,7 +60,7 @@ class Vacancy:
             vacancies.append(vacancy)
         return vacancies
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Строковое представление объекта Vacancy.
 
@@ -74,7 +74,7 @@ class Vacancy:
                 f"{'_'*80}\n")
 
     @classmethod
-    def get_top_n_by_salary(cls, vacancies, n=5):
+    def get_top_n_by_salary(cls, vacancies: list, n: int = 5) -> list:
         """
         Получение топ-N вакансий с наибольшей зарплатой.
 
@@ -95,7 +95,7 @@ class Vacancy:
         return filtered_vacancies_by_salary[:n]
 
     @classmethod
-    def get_vacancy_by_search_query(cls, vacancies, search_query):
+    def get_vacancy_by_search_query(cls, vacancies: list, search_query: str) -> list:
         """
         Поиск вакансий по запросу.
 
@@ -120,7 +120,7 @@ class Vacancy:
         return filtered_vacancies
 
     @classmethod
-    def get_vacancy_by_description(cls, vacancies, search_description):
+    def get_vacancy_by_description(cls, vacancies: list, search_description: str) -> list:
         """
         Поиск вакансий по описанию.
 
@@ -144,7 +144,7 @@ class Vacancy:
             return f"Вакансии по описанию не найдены"
         return filtered_vacancies
 
-    def __lt__(self, other):
+    def __lt__(self, other: 'Vacancy') -> bool:
         """
         Сравнение вакансий по максимальной зарплате.
 
@@ -158,7 +158,7 @@ class Vacancy:
             return False
         return self.salary_to < other.salary_to
 
-    def __gt__(self, other):
+    def __gt__(self, other: 'Vacancy') -> bool:
         """
         Сравнение вакансий по максимальной зарплате.
 

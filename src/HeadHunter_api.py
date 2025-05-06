@@ -12,7 +12,7 @@ class HeadHunterAPI(HeadHunterAbstract):
 
     __HH_API_URL = 'https://api.hh.ru/vacancies'
 
-    def __get_vacancies(self, keyword='', per_page=50, salary=None):
+    def __get_vacancies(self, keyword: str = '', per_page: int = 50, salary: int | None = None) -> list | str:
         """
         Приватный метод для получения списка вакансий с HeadHunter.
 
@@ -38,7 +38,7 @@ class HeadHunterAPI(HeadHunterAbstract):
         else:
             return f'Запрос не выполнен, ошибка: {response.status_code}'
 
-    def get_vacancies(self, keyword='', per_page=20, salary=None):
+    def get_vacancies(self, keyword: str = '', per_page: int = 20, salary: int | None = None) -> list | str:
         """
         Метод-обёртка для получения списка вакансий.
 
