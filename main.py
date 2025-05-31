@@ -8,6 +8,9 @@ hh_api = HeadHunterAPI()
 # Передаем пусть, по которому будем сохранять отфильтрованные вакансии
 json_saver = JSONSaver("data/json_data.json")
 hh_vacancies = hh_api.get_vacancies()
+
+hh_emp = hh_api.get_all_vacancies()
+
 vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
 def user_interaction():
     print("HeadHunter")
@@ -40,7 +43,7 @@ def user_interaction():
             json_saver.add_vacancy(vacancy)
 
 
-
+# print(hh_emp)
 # if __name__ == "__main__":
 #     user_interaction()
 # DataBaseHH(vacancies_list, 'Vac', 'Aslan', '9308271')
