@@ -31,7 +31,7 @@ class HeadHunterAPI(HeadHunterAbstract):
             return f"Запрос не выполнен, ошибка: {response.status_code}"
 
     def get_vacancies(
-        self, keyword: str = "", per_page: int = 20, salary: int | None = None
+        self, keyword: str = "", per_page: int = 100, salary: int | None = None
     ) -> list | str:
         """
         Метод-обёртка для получения списка вакансий.
