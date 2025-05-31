@@ -71,7 +71,7 @@ class HeadHunterAPI(HeadHunterAbstract):
         Метод возвращающий json вакансий
         """
         params = {
-            "per_page": 20,
+            "per_page": 10,
             "employer_id": id_company,
             'only_with_salary': "true"
         }
