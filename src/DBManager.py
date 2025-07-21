@@ -5,6 +5,7 @@ import os
 
 dotenv.load_dotenv()
 
+
 class DBManager:
 
     """
@@ -41,7 +42,6 @@ class DBManager:
                     CREATE TABLE IF NOT EXISTS employer (
                     id VARCHAR(255) PRIMARY KEY,
                     employer_name VARCHAR(255));
-                    
                     CREATE TABLE IF NOT EXISTS vacancies (
                         id VARCHAR(255) PRIMARY KEY,
                         employer_name VARCHAR(255),
@@ -52,7 +52,7 @@ class DBManager:
                         vacancy_url VARCHAR(255),
                         employer_id VARCHAR(255),
                         FOREIGN KEY (employer_id) REFERENCES employer(id)
-                    ) 
+                    )
                     """
         )
 
@@ -72,9 +72,8 @@ class DBManager:
             except psycopg2.errors.UniqueViolation:
                 print(f"Работодатель с ID {vacancy["employer"]["id"]} уже существует в базе данных")
             except KeyError as e:
-                print(f"Ошибка при добавлении работодателя: {e}\n"\
-                       f"У работодателя {vacancy["employer"]["name"]} нет id")
-
+                print(f"Ошибка при добавлении работодателя: {e}\n"
+                      f"У работодателя {vacancy["employer"]["name"]} нет id")
             try:
                 salary_from = (
                     vacancy["salary"]["from"] if vacancy["salary"] is not None else 0
@@ -84,7 +83,8 @@ class DBManager:
                 )
                 self.cursor.execute(
                     """
-                                INSERT INTO vacancies (id, employer_name, vacancy_name, salary_from, salary_to, currency, vacancy_url, employer_id)
+                                INSERT INTO vacancies (id, employer_name, vacancy_name,
+                                salary_from, salary_to, currency, vacancy_url, employer_id)
                                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                             """,
                     (
@@ -104,8 +104,6 @@ class DBManager:
                 print(f"Вакансия с ID {vacancy['id']} уже существует в базе данных")
             except psycopg2.Error as e:
                 print(f"Ошибка при добавлении вакансии: {e}")
-
-
 
     def get_all_vacancies(self):
         try:
@@ -163,11 +161,11 @@ class DBManager:
         try:
             self.cursor.execute(
                 """
-                    SELECT 
+                    SELECT
                         *
-                    FROM 
+                    FROM
                         vacancies
-                    WHERE 
+                    WHERE
                         ((salary_from + salary_to) / 2) > %s
                     """,
                 (avg_salary,),
@@ -232,13 +230,3 @@ class DBManager:
             print(f"{e}")
         finally:
             connection.close()
-
-
-if __name__ == "__main__":
-    db = DBManager(hh_emp)
-    av_sal = db.get_avg_salary()
-    print(av_sal)
-    print(db.get_vacancies_with_keyword("Строитель"))
-    print(db.get_companies_and_vacancies_count())
-    print(db.get_vacancies_with_higher_salary(av_sal))
-    db.close_connection()

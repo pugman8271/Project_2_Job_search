@@ -33,8 +33,6 @@ class HeadHunterAPI(HeadHunterAbstract):
         else:
             return f"Запрос не выполнен, ошибка: {response.status_code}"
 
-
-
     def get_request_employers(self):
         """
         Метод возвращающий json по умолчанию 10 компаний
@@ -85,6 +83,7 @@ class HeadHunterAPI(HeadHunterAbstract):
         :return: list
         :rtype: list
         """
+
         employers = self.get_request_employers()
         vacancies = []
         for employer in employers:
