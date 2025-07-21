@@ -1,8 +1,9 @@
 import psycopg2
 import psycopg2.errors
-
+import dotenv
+import os
 from main import hh_vacancies, hh_emp
-
+dotenv.load_dotenv()
 
 class DBManager:
 
@@ -26,7 +27,7 @@ class DBManager:
         connection = psycopg2.connect(
             dbname=self.db_name,
             user="postgres",
-            password="9308271",
+            password=os.getenv("DB_PASSWORD"),
             host="localhost",
             port="5432",
         )
@@ -37,6 +38,10 @@ class DBManager:
         self.connection.autocommit = True
         self.cursor.execute(
             """
+                    CREATE TABLE IF NOT EXISTS employer (
+                    id VARCHAR(255) PRIMARY KEY,
+                    employer_name VARCHAR(255));
+                    
                     CREATE TABLE IF NOT EXISTS vacancies (
                         id VARCHAR(255) PRIMARY KEY,
                         employer_name VARCHAR(255),
@@ -44,11 +49,10 @@ class DBManager:
                         salary_from INTEGER,
                         salary_to INTEGER,
                         currency VARCHAR(10),
-                        vacancy_url VARCHAR(255)
-                    );
-                    CREATE TABLE IF NOT EXISTS employer (
-                    id VARCHAR(255) PRIMARY KEY,
-                    employer_name VARCHAR(255)) 
+                        vacancy_url VARCHAR(255),
+                        employer_id VARCHAR(255),
+                        FOREIGN KEY (employer_id) REFERENCES employer(id)
+                    ) 
                     """
         )
 
@@ -80,8 +84,8 @@ class DBManager:
                 )
                 self.cursor.execute(
                     """
-                                INSERT INTO vacancies (id, employer_name, vacancy_name, salary_from, salary_to, currency, vacancy_url)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                                INSERT INTO vacancies (id, employer_name, vacancy_name, salary_from, salary_to, currency, vacancy_url, employer_id)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                             """,
                     (
                         vacancy["id"],
@@ -93,6 +97,7 @@ class DBManager:
                         if vacancy["salary"] is not None
                         else None,
                         vacancy["alternate_url"],
+                        vacancy["employer"]["id"]
                     ),
                 )
             except psycopg2.errors.UniqueViolation:
@@ -214,7 +219,7 @@ class DBManager:
         connection = psycopg2.connect(
             dbname="postgres",
             user="postgres",
-            password="9308271",
+            password=os.getenv("DB_PASSWORD"),
             host="localhost",
             port="5432",
         )
@@ -232,5 +237,8 @@ class DBManager:
 if __name__ == "__main__":
     db = DBManager(hh_emp)
     av_sal = db.get_avg_salary()
-    print(db.get_vacancies_with_keyword("Менеджер"))
+    print(av_sal)
+    print(db.get_vacancies_with_keyword("Строитель"))
+    print(db.get_companies_and_vacancies_count())
+    print(db.get_vacancies_with_higher_salary(av_sal))
     db.close_connection()

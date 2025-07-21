@@ -1,17 +1,21 @@
+# from src.DBManager import DBManager
 from src.HeadHunter_api import HeadHunterAPI
 from src.json_saver import JSONSaver
 from src.vacancy import Vacancy
 
-
 # Создание экземпляра класса для работы с API сайтов с вакансиями
 hh_api = HeadHunterAPI()
+# Получаем данные о всех вакансиях
+hh_vacancies = hh_api.get_vacancies()
+# Получаем данные о всех работодателях
+hh_emp = hh_api.get_all_vacancies()
+# Создание экземпляра класса для работы с БД
+# db = DBManager(hh_emp)
 # Передаем пусть, по которому будем сохранять отфильтрованные вакансии
 json_saver = JSONSaver("data/json_data.json")
-hh_vacancies = hh_api.get_vacancies()
-
-hh_emp = hh_api.get_all_vacancies()
-
+# Преобразовываем данные о перечне вакансий в список
 vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
+# Функция для работы с пользователем в консоли
 def user_interaction():
     print("HeadHunter")
     search_query = input("Введите поисковый запрос: ")
@@ -43,8 +47,5 @@ def user_interaction():
             json_saver.add_vacancy(vacancy)
 
 
-# print(hh_emp)
-# if __name__ == "__main__":
-#     user_interaction()
-# DataBaseHH(vacancies_list, 'Vac', 'Aslan', '9308271')
+
 
