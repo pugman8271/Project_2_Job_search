@@ -2,7 +2,7 @@ import psycopg2
 import psycopg2.errors
 import dotenv
 import os
-from main import hh_vacancies, hh_emp
+
 dotenv.load_dotenv()
 
 class DBManager:
