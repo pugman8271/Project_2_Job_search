@@ -47,11 +47,7 @@ class HeadHunterAPI(HeadHunterAbstract):
             return response.json()["items"]
         else:
             for i in self.name:
-                params = {
-                    "per_page": 10,
-                    "sort_by": "by_vacancies_open",
-                    "text": i
-                }
+                params = {"per_page": 10, "sort_by": "by_vacancies_open", "text": i}
                 response = requests.get("http://api.hh.ru/employers/", params)
                 list_employeers.extend(response.json()["items"])
 
@@ -68,11 +64,7 @@ class HeadHunterAPI(HeadHunterAbstract):
         """
         Метод возвращающий json вакансий
         """
-        params = {
-            "per_page": 10,
-            "employer_id": id_company,
-            'only_with_salary': "true"
-        }
+        params = {"per_page": 10, "employer_id": id_company, "only_with_salary": "true"}
         response = requests.get("http://api.hh.ru/vacancies/", params)
         return response.json()["items"]
 

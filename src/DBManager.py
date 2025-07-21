@@ -1,13 +1,13 @@
+import os
+
+import dotenv
 import psycopg2
 import psycopg2.errors
-import dotenv
-import os
 
 dotenv.load_dotenv()
 
 
 class DBManager:
-
     """
     Класс для создания базы данных с вакансиями.
     """
@@ -70,10 +70,14 @@ class DBManager:
                     ),
                 )
             except psycopg2.errors.UniqueViolation:
-                print(f"Работодатель с ID {vacancy["employer"]["id"]} уже существует в базе данных")
+                print(
+                    f"Работодатель с ID {vacancy["employer"]["id"]} уже существует в базе данных"
+                )
             except KeyError as e:
-                print(f"Ошибка при добавлении работодателя: {e}\n"
-                      f"У работодателя {vacancy["employer"]["name"]} нет id")
+                print(
+                    f"Ошибка при добавлении работодателя: {e}\n"
+                    f"У работодателя {vacancy["employer"]["name"]} нет id"
+                )
             try:
                 salary_from = (
                     vacancy["salary"]["from"] if vacancy["salary"] is not None else 0
@@ -93,11 +97,13 @@ class DBManager:
                         vacancy["name"],
                         salary_from,
                         salary_to,
-                        vacancy["salary"]["currency"]
-                        if vacancy["salary"] is not None
-                        else None,
+                        (
+                            vacancy["salary"]["currency"]
+                            if vacancy["salary"] is not None
+                            else None
+                        ),
                         vacancy["alternate_url"],
-                        vacancy["employer"]["id"]
+                        vacancy["employer"]["id"],
                     ),
                 )
             except psycopg2.errors.UniqueViolation:
