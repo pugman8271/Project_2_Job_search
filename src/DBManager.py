@@ -1,7 +1,7 @@
-import os
-from src.DBInicializator import DBInicializator
 import psycopg2
 import psycopg2.errors
+
+from src.DBInicializator import DBInicializator
 
 
 class DBManager(DBInicializator):
@@ -12,7 +12,6 @@ class DBManager(DBInicializator):
     def __init__(self, vacancies_list):
         super().__init__(vacancies_list)
         self.vacancies_list = vacancies_list
-
 
         for vacancy in self.vacancies_list:
 
@@ -176,5 +175,3 @@ class DBManager(DBInicializator):
         except psycopg2.Error as e:
             print(f"Ошибка при поиске вакансий по ключевому слову: {e}")
             return []
-
-

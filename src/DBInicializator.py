@@ -1,4 +1,5 @@
 import os
+
 import dotenv
 import psycopg2
 import psycopg2.errors
@@ -26,10 +27,10 @@ class DBInicializator:
     def connect_db(self):
         connection = psycopg2.connect(
             dbname=self.db_name,
-            user="postgres",
+            user=os.getenv("DB_NAME"),
             password=os.getenv("DB_PASSWORD"),
-            host="localhost",
-            port="5432",
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
         )
         connection.autocommit = True
         return connection
@@ -110,15 +111,13 @@ class DBInicializator:
             except psycopg2.Error as e:
                 print(f"Ошибка при добавлении вакансии: {e}")
 
-
-
     def create_db(self):
         connection = psycopg2.connect(
-            dbname="postgres",
-            user="postgres",
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_NAME"),
             password=os.getenv("DB_PASSWORD"),
-            host="localhost",
-            port="5432",
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
         )
         connection.autocommit = True
         try:

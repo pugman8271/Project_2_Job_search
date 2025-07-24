@@ -2,15 +2,15 @@ from src.DBManager import DBManager
 from src.HeadHunter_api import HeadHunterAPI
 from src.json_saver import JSONSaver
 from src.vacancy import Vacancy
-from src.DBInicializator import DBInicializator
+
 # Создание экземпляра класса для работы с API сайтов с вакансиями
 hh_api = HeadHunterAPI()
 # Получаем данные о всех вакансиях
 hh_vacancies = hh_api.get_vacancies()
 # Получаем данные о всех работодателях
 hh_emp = hh_api.get_all_vacancies()
-# Создание экземпляра класса для создания и подключения к БД
-
+# Создание экземпляра класса для создания и подключения к БД происходит в момент создания экземпляра DBManager,
+# так как наследует все методы класса DBInicializator
 # Создание экземпляра класса для работы с БД
 dbm = DBManager(hh_emp)
 # Передаем пусть, по которому будем сохранять отфильтрованные вакансии
