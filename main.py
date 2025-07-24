@@ -2,15 +2,17 @@ from src.DBManager import DBManager
 from src.HeadHunter_api import HeadHunterAPI
 from src.json_saver import JSONSaver
 from src.vacancy import Vacancy
-
+from src.DBInicializator import DBInicializator
 # Создание экземпляра класса для работы с API сайтов с вакансиями
 hh_api = HeadHunterAPI()
 # Получаем данные о всех вакансиях
 hh_vacancies = hh_api.get_vacancies()
 # Получаем данные о всех работодателях
 hh_emp = hh_api.get_all_vacancies()
+# Создание экземпляра класса для создания и подключения к БД
+
 # Создание экземпляра класса для работы с БД
-db = DBManager(hh_emp)
+dbm = DBManager(hh_emp)
 # Передаем пусть, по которому будем сохранять отфильтрованные вакансии
 json_saver = JSONSaver("data/json_data.json")
 # Преобразовываем данные о перечне вакансий в список
@@ -50,7 +52,7 @@ vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
 def user_interaction():
     keyword = input("Введите ключевое слово: ")
     print("Список вакансий по вашему запросу ниже:")
-    for v in db.get_vacancies_with_keyword(keyword):
+    for v in dbm.get_vacancies_with_keyword(keyword):
         print(
             f"Работодатель: {v['employer_name']}\n"
             f"Название вакансии: {v['vacancy_name']}\n"
@@ -59,12 +61,12 @@ def user_interaction():
     print(
         "____________________________________________________________________________________________"
     )
-    av_sal = round(db.get_avg_salary())
+    av_sal = round(dbm.get_avg_salary())
     print(f"Средняя зп: {av_sal} руб.")
     print(
         "____________________________________________________________________________________________"
     )
-    for v in db.get_companies_and_vacancies_count():
+    for v in dbm.get_companies_and_vacancies_count():
         print(
             f"Работодатель: {v['employer_name']}; количество вакансий: {v['vacancies_count']}"
         )
@@ -72,7 +74,7 @@ def user_interaction():
         "____________________________________________________________________________________________"
     )
     print("Список вакансий с ЗП выше средней")
-    for v in db.get_vacancies_with_higher_salary(av_sal):
+    for v in dbm.get_vacancies_with_higher_salary(av_sal):
         print(
             f"Работодатель: {v['employer_name']}\n"
             f"Название вакансии: {v['vacancy_name']}\n"
@@ -80,7 +82,7 @@ def user_interaction():
             f"____________________________________________________________________________________________"
         )
 
-    db.close_connection()
+    dbm.close_connection()
 
 
 user_interaction()
