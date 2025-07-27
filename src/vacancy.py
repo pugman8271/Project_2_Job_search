@@ -73,7 +73,7 @@ class Vacancy:
         """
         Поиск вакансий по ключевым словам в названии или описании.
         """
-        if type(vacancies) != list:
+        if not isinstance(vacancies, list):
             return "Вакансии не найдены"
 
         filtered_vacancies = []
